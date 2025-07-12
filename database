@@ -1,0 +1,1803 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Generation Time: Jul 12, 2025 at 05:20 PM
+-- Server version: 10.6.15-MariaDB-cll-lve
+-- PHP Version: 8.3.22
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `ptu40382_komunitasbsb`
+--
+
+DELIMITER $$
+--
+-- Procedures
+--
+$$
+
+$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_logs`
+--
+
+CREATE TABLE `activity_logs` (
+  `id` bigint(20) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `action` varchar(255) NOT NULL,
+  `details` text DEFAULT NULL,
+  `related_id` int(11) DEFAULT NULL,
+  `related_type` varchar(100) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_logs`
+--
+
+CREATE TABLE `admin_logs` (
+  `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `aksi` varchar(64) NOT NULL,
+  `objek` varchar(64) DEFAULT NULL,
+  `objek_id` int(11) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `admin_logs`
+--
+
+INSERT INTO `admin_logs` (`id`, `admin_id`, `aksi`, `objek`, `objek_id`, `keterangan`, `created_at`) VALUES
+(1, 1, 'bonus_massal', 'bonus', NULL, 'Nominal: 100 ke 6 member | Keterangan: bonus saja', '2025-07-11 18:07:18'),
+(2, 1, 'approve_bonus', 'bonus', 1, 'Nominal: 100.00 | User: 2', '2025-07-11 18:07:32'),
+(3, 1, 'approve_bonus', 'bonus', 2, 'Nominal: 100.00 | User: 30', '2025-07-11 18:07:35'),
+(4, 1, 'approve_bonus', 'bonus', 3, 'Nominal: 100.00 | User: 31', '2025-07-11 18:07:37'),
+(5, 1, 'approve_bonus', 'bonus', 4, 'Nominal: 100.00 | User: 32', '2025-07-11 18:07:40'),
+(6, 1, 'approve_bonus', 'bonus', 5, 'Nominal: 100.00 | User: 34', '2025-07-11 18:07:42'),
+(7, 1, 'approve_bonus', 'bonus', 6, 'Nominal: 100.00 | User: 35', '2025-07-11 18:07:45'),
+(8, 1, 'bonus_massal', 'bonus', NULL, 'Nominal: 200 ke 6 member | Keterangan: Bagi Hasil', '2025-07-11 19:31:18'),
+(9, 1, 'approve_bonus', 'bonus', 7, 'Nominal: 200.00 | User: 2', '2025-07-11 19:31:25'),
+(10, 1, 'reject_bonus', 'bonus', 8, 'Nominal: 200.00 | User: 30', '2025-07-11 19:32:08'),
+(11, 1, 'reject_bonus', 'bonus', 12, 'Nominal: 200.00 | User: 35', '2025-07-11 19:32:10'),
+(12, 1, 'reject_bonus', 'bonus', 11, 'Nominal: 200.00 | User: 34', '2025-07-11 19:32:12'),
+(13, 1, 'reject_bonus', 'bonus', 10, 'Nominal: 200.00 | User: 32', '2025-07-11 19:32:15'),
+(14, 1, 'reject_bonus', 'bonus', 9, 'Nominal: 200.00 | User: 31', '2025-07-11 19:32:18'),
+(15, 1, 'reject_bonus', 'bonus', 9, 'Nominal: 200.00 | User: 31', '2025-07-11 19:45:16'),
+(16, 1, 'delete_bonus', 'bonus', 8, 'Bonus dihapus', '2025-07-11 19:45:29'),
+(17, 1, 'delete_bonus', 'bonus', 9, 'Bonus dihapus', '2025-07-11 19:45:42'),
+(18, 1, 'delete_bonus', 'bonus', 12, 'Bonus dihapus', '2025-07-11 19:45:44'),
+(19, 1, 'delete_bonus', 'bonus', 10, 'Bonus dihapus', '2025-07-11 19:45:47'),
+(20, 1, 'delete_bonus', 'bonus', 11, 'Bonus dihapus', '2025-07-11 19:45:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `berita`
+--
+
+CREATE TABLE `berita` (
+  `id` int(11) NOT NULL,
+  `judul` varchar(150) NOT NULL,
+  `isi` text NOT NULL,
+  `gambar` varchar(200) DEFAULT NULL,
+  `kategori` varchar(50) DEFAULT 'informasi',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` enum('draft','publish') DEFAULT 'publish'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `berita`
+--
+
+INSERT INTO `berita` (`id`, `judul`, `isi`, `gambar`, `kategori`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'Pengumuman', 'Test berita', NULL, 'berita', '2025-07-04 13:27:37', '2025-07-04 13:27:37', 'publish');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `berita_read`
+--
+
+CREATE TABLE `berita_read` (
+  `id` int(11) NOT NULL,
+  `berita_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `dibaca_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonus`
+--
+
+CREATE TABLE `bonus` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `jenis` varchar(50) DEFAULT NULL,
+  `amount` decimal(14,2) NOT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `produk` varchar(100) DEFAULT NULL,
+  `dari` varchar(100) DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `approved_at` datetime DEFAULT NULL,
+  `approved_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `bonus`
+--
+
+INSERT INTO `bonus` (`id`, `user_id`, `jenis`, `amount`, `keterangan`, `level`, `produk`, `dari`, `status`, `created_at`, `approved_at`, `approved_by`) VALUES
+(1, 2, 'bonus_massal', 100.00, 'bonus saja', NULL, NULL, NULL, 'approved', '2025-07-11 18:07:18', '2025-07-11 18:07:32', 1),
+(2, 30, 'bonus_massal', 100.00, 'bonus saja', NULL, NULL, NULL, 'approved', '2025-07-11 18:07:18', '2025-07-11 18:07:35', 1),
+(3, 31, 'bonus_massal', 100.00, 'bonus saja', NULL, NULL, NULL, 'approved', '2025-07-11 18:07:18', '2025-07-11 18:07:37', 1),
+(4, 32, 'bonus_massal', 100.00, 'bonus saja', NULL, NULL, NULL, 'approved', '2025-07-11 18:07:18', '2025-07-11 18:07:40', 1),
+(5, 34, 'bonus_massal', 100.00, 'bonus saja', NULL, NULL, NULL, 'approved', '2025-07-11 18:07:18', '2025-07-11 18:07:42', 1),
+(6, 35, 'bonus_massal', 100.00, 'bonus saja', NULL, NULL, NULL, 'approved', '2025-07-11 18:07:18', '2025-07-11 18:07:45', 1),
+(7, 2, 'bonus_massal', 200.00, 'Bagi Hasil', NULL, NULL, NULL, 'approved', '2025-07-11 19:31:18', '2025-07-11 19:31:25', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonus_custom`
+--
+
+CREATE TABLE `bonus_custom` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `amount` decimal(14,2) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `admin_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `commissions`
+--
+
+CREATE TABLE `commissions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `from_user_id` int(11) DEFAULT NULL,
+  `amount` decimal(18,2) NOT NULL,
+  `type` enum('referral','level','bonus','reward') NOT NULL,
+  `level` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `status` enum('approved','pending','rejected') DEFAULT 'approved',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `description` varchar(255) DEFAULT NULL,
+  `bonus_id` int(11) DEFAULT NULL,
+  `withdrawal_id` int(11) DEFAULT NULL,
+  `approved_at` datetime DEFAULT NULL,
+  `approved_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `commission_log`
+--
+
+CREATE TABLE `commission_log` (
+  `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `level` int(11) DEFAULT NULL,
+  `old_value` decimal(18,2) DEFAULT NULL,
+  `new_value` decimal(18,2) DEFAULT NULL,
+  `action` varchar(32) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `commission_settings`
+--
+
+CREATE TABLE `commission_settings` (
+  `id` int(11) NOT NULL,
+  `default_type` enum('percent','fixed') NOT NULL,
+  `default_value` decimal(10,2) NOT NULL,
+  `max_level` int(11) DEFAULT 10,
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `commission_settings`
+--
+
+INSERT INTO `commission_settings` (`id`, `default_type`, `default_value`, `max_level`, `is_active`) VALUES
+(1, 'fixed', 10.00, 10, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `genealogy`
+--
+
+CREATE TABLE `genealogy` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `position` enum('LEFT','CENTER','RIGHT') NOT NULL,
+  `status` enum('AKTIF','NONAKTIF') NOT NULL DEFAULT 'AKTIF',
+  `join_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `giveaway_activity_log`
+--
+
+CREATE TABLE `giveaway_activity_log` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `activity_type` varchar(50) NOT NULL,
+  `description` text DEFAULT NULL,
+  `timestamp` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `growth_point_rewards`
+--
+
+CREATE TABLE `growth_point_rewards` (
+  `id` int(11) NOT NULL,
+  `network_type` varchar(32) DEFAULT NULL,
+  `milestone_point` int(11) NOT NULL,
+  `reward_amount` decimal(12,2) NOT NULL,
+  `keterangan` varchar(128) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `member_tree`
+--
+
+CREATE TABLE `member_tree` (
+  `id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `level` int(11) DEFAULT 1,
+  `posisi` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `multi_stage`
+--
+
+CREATE TABLE `multi_stage` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `stage` int(11) NOT NULL COMMENT 'Stage level (1-6)',
+  `position` int(11) NOT NULL COMMENT 'Posisi dalam stage (1-9)',
+  `entry_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` enum('active','promoted','completed') DEFAULT 'active',
+  `reward_claimed` tinyint(1) DEFAULT 0,
+  `reward_claim_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `network_position_stats`
+-- (See below for the actual view)
+--
+CREATE TABLE `network_position_stats` (
+`parent_id` int(11)
+,`position` varchar(20)
+,`position_count` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `network_settings`
+--
+
+CREATE TABLE `network_settings` (
+  `id` int(11) NOT NULL,
+  `network_type` varchar(32) NOT NULL,
+  `max_legs` int(11) DEFAULT 2,
+  `hybrid_config` mediumtext DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `autoplacement_enabled` tinyint(1) DEFAULT 1,
+  `autoplacement_mode` enum('referral','global') DEFAULT 'referral',
+  `root_member_id` int(11) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT 1,
+  `description` varchar(128) DEFAULT NULL,
+  `leg_names` mediumtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `network_settings`
+--
+
+INSERT INTO `network_settings` (`id`, `network_type`, `max_legs`, `hybrid_config`, `updated_at`, `autoplacement_enabled`, `autoplacement_mode`, `root_member_id`, `active`, `description`, `leg_names`) VALUES
+(1, 'binary', 2, '', '2025-07-01 11:54:53', 1, 'referral', NULL, 0, '', NULL),
+(2, 'binary', 2, '', '2025-07-01 12:26:45', 0, 'referral', NULL, 0, '', NULL),
+(3, 'binary', 2, '', '2025-07-01 12:26:55', 1, 'referral', NULL, 0, '', NULL),
+(4, 'trinary', 3, '', '2025-07-01 13:47:25', 1, 'referral', NULL, 0, '', NULL),
+(5, 'trinary', 3, '', '2025-07-01 17:00:34', 1, 'referral', NULL, 0, '', NULL),
+(6, 'trinary', 3, '', '2025-07-05 05:35:22', 1, 'referral', NULL, 0, '', NULL),
+(7, 'trinary', 3, '', '2025-07-05 06:03:00', 0, 'referral', NULL, 0, '', NULL),
+(8, 'trinary', 3, '', '2025-07-05 06:03:06', 0, 'referral', NULL, 0, '', NULL),
+(9, 'trinary', 3, '', '2025-07-05 06:03:12', 1, 'referral', NULL, 0, '', NULL),
+(10, 'trinary', 3, '', '2025-07-05 06:03:32', 0, 'referral', NULL, 0, '', NULL),
+(11, 'trinary', 3, '', '2025-07-05 06:04:04', 0, 'referral', NULL, 0, '', NULL),
+(12, 'trinary', 3, '', '2025-07-06 15:54:42', 1, 'referral', NULL, 0, '', NULL),
+(13, 'trinary', 3, '', '2025-07-07 16:01:31', 1, 'referral', NULL, 0, '', NULL),
+(14, 'trinary', 3, '', '2025-07-07 16:01:35', 1, 'referral', NULL, 0, '', NULL),
+(15, 'trinary', 3, '', '2025-07-07 16:17:04', 1, 'referral', NULL, 0, '', NULL),
+(16, 'trinary', 3, '', '2025-07-09 11:54:33', 1, 'referral', NULL, 0, '', NULL),
+(17, 'trinary', 3, '', '2025-07-09 12:12:51', 0, 'referral', NULL, 0, '', NULL),
+(18, 'trinary', 3, '', '2025-07-10 04:06:08', 1, 'referral', NULL, 0, '', NULL),
+(19, 'trinary', 3, '', '2025-07-10 04:07:49', 1, 'referral', NULL, 0, '', NULL),
+(20, 'trinary', 3, '', '2025-07-10 04:08:12', 0, 'referral', NULL, 0, '', NULL),
+(21, 'trinary', 3, '', '2025-07-10 12:31:13', 1, 'referral', NULL, 0, '', NULL),
+(22, 'trinary', 3, '', '2025-07-10 13:30:27', 1, 'global', NULL, 0, '', NULL),
+(23, 'binary', 2, '', '2025-07-10 14:31:31', 1, 'referral', 2, 0, '', NULL),
+(24, 'trinary', 3, '', '2025-07-10 14:31:42', 1, 'referral', 2, 0, '', NULL),
+(25, 'trinary', 3, '', '2025-07-10 14:49:28', 1, 'referral', 2, 0, '', NULL),
+(26, 'trinary', 3, '', '2025-07-10 14:49:40', 1, 'global', 2, 0, '', NULL),
+(27, 'trinary', 3, '', '2025-07-10 14:56:20', 1, 'global', 2, 0, '', NULL),
+(28, 'trinary', 3, '', '2025-07-10 14:57:03', 1, 'global', 2, 0, '', NULL),
+(29, 'trinary', 3, '', '2025-07-10 14:57:10', 1, 'global', 2, 0, '', NULL),
+(30, 'trinary', 3, '', '2025-07-10 18:10:00', 1, 'global', 2, 0, '', NULL),
+(31, 'binary', 2, '', '2025-07-10 19:58:17', 1, 'global', 2, 0, '', NULL),
+(32, 'trinary', 3, '', '2025-07-11 10:15:46', 1, 'global', 2, 0, '', NULL),
+(33, 'trinary', 3, '', '2025-07-11 10:15:46', 1, 'global', 2, 1, '', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `network_structure_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `network_structure_view` (
+`id` int(11)
+,`username` varchar(50)
+,`parent_id` int(11)
+,`referral_id` int(11)
+,`parent_username` varchar(50)
+,`referrer_username` varchar(50)
+,`leg` varchar(20)
+,`position` varchar(20)
+,`status` enum('active','pasif','suspended','banned')
+,`product_id` int(11)
+,`product_name` varchar(100)
+,`join_date` datetime
+,`poin` int(11)
+,`direct_children_count` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin`
+--
+
+CREATE TABLE `pin` (
+  `id` int(11) NOT NULL,
+  `kode_pin` varchar(32) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `batch_id` int(11) DEFAULT NULL,
+  `status` enum('unused','used','expired','revoked','locked') NOT NULL DEFAULT 'unused',
+  `tipe` enum('gratis','berbayar') DEFAULT 'berbayar',
+  `generated_by` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `is_free` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `expired_at` datetime DEFAULT NULL,
+  `used_at` datetime DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `activation_quota` int(11) NOT NULL DEFAULT 1,
+  `activation_used` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_activations`
+--
+
+CREATE TABLE `pin_activations` (
+  `id` int(11) NOT NULL,
+  `pin_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `activated_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_assignments`
+--
+
+CREATE TABLE `pin_assignments` (
+  `id` int(11) NOT NULL,
+  `pin_id` int(11) NOT NULL,
+  `assigned_to` int(11) NOT NULL,
+  `assigned_by` int(11) NOT NULL,
+  `assigned_type` enum('user','order','agen') NOT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `status` enum('assigned','revoked','undone') DEFAULT 'assigned',
+  `note` text DEFAULT NULL,
+  `assigned_at` datetime DEFAULT current_timestamp(),
+  `revoked_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_batches`
+--
+
+CREATE TABLE `pin_batches` (
+  `id` int(11) NOT NULL,
+  `batch_code` varchar(255) DEFAULT NULL,
+  `jumlah` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `tipe` enum('gratis','berbayar') DEFAULT 'berbayar',
+  `keterangan` text DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `pin_batches`
+--
+
+INSERT INTO `pin_batches` (`id`, `batch_code`, `jumlah`, `product_id`, `tipe`, `keterangan`, `created_by`, `created_at`) VALUES
+(1, '', 1, 1, 'berbayar', '', 1, '2025-07-05 12:17:09'),
+(4, '', 1, 1, 'berbayar', '', 1, '2025-07-06 17:53:56'),
+(5, '', 1, 2, 'gratis', '', 1, '2025-07-06 20:01:41'),
+(6, '', 3, 1, 'berbayar', '', 1, '2025-07-08 22:14:10'),
+(7, '', 9, 1, 'berbayar', '', 1, '2025-07-08 22:44:18'),
+(8, '', 1, 1, 'berbayar', '', 1, '2025-07-08 23:31:10'),
+(9, '', 1, 1, 'berbayar', '', 1, '2025-07-09 13:45:37'),
+(10, '', 3, 1, 'berbayar', '', 1, '2025-07-09 13:46:24'),
+(11, '', 1, 1, 'berbayar', '', 1, '2025-07-10 19:44:05'),
+(12, '', 1, 1, 'berbayar', '', 1, '2025-07-10 21:57:31'),
+(13, '', 10, 1, 'berbayar', '', 1, '2025-07-11 17:16:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_log`
+--
+
+CREATE TABLE `pin_log` (
+  `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `action` varchar(32) NOT NULL,
+  `pin_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `pin_log`
+--
+
+INSERT INTO `pin_log` (`id`, `admin_id`, `action`, `pin_id`, `order_id`, `user_id`, `ip_address`, `user_agent`, `note`, `created_at`) VALUES
+(17, 1, 'generate_pin', NULL, NULL, NULL, '182.3.44.42', NULL, 'Generated 1 PINs for product ID 1 (Batch: )', '2025-07-09 13:45:37'),
+(18, 1, 'generate_pin', NULL, NULL, NULL, '182.3.44.42', NULL, 'Generated 3 PINs for product ID 1 (Batch: )', '2025-07-09 13:46:24'),
+(19, 1, 'transfer-admin', NULL, NULL, 2, '182.3.44.42', NULL, 'Transfer 4 PIN berbayar ke User ID 2. ', '2025-07-09 13:46:38'),
+(20, 1, 'generate_pin', NULL, NULL, NULL, '114.124.145.213', NULL, 'Generated 1 PINs for product ID 1 (Batch: )', '2025-07-10 19:44:05'),
+(21, 1, 'generate_pin', NULL, NULL, NULL, '114.124.147.80', NULL, 'Generated 1 PINs for product ID 1 (Batch: )', '2025-07-10 21:57:31'),
+(22, 1, 'generate_pin', NULL, NULL, NULL, '182.3.36.49', NULL, 'Generated 10 PINs for product ID 1 (Batch: )', '2025-07-11 17:16:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_orders`
+--
+
+CREATE TABLE `pin_orders` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `jumlah_pin` int(11) NOT NULL,
+  `tipe` enum('berbayar','gratis') NOT NULL DEFAULT 'berbayar',
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `processed_at` datetime DEFAULT NULL,
+  `processed_by` int(11) DEFAULT NULL,
+  `catatan` varchar(255) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_order_details`
+--
+
+CREATE TABLE `pin_order_details` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `pin_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_transactions`
+--
+
+CREATE TABLE `pin_transactions` (
+  `id` int(11) NOT NULL,
+  `from_user_id` int(11) DEFAULT NULL,
+  `to_user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `type` enum('order','transfer_in','transfer_out') NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `approved_by` int(11) DEFAULT NULL,
+  `kode_pin` varchar(64) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `processed_at` datetime DEFAULT NULL,
+  `ref_order_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `pin_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pin_transfer`
+--
+
+CREATE TABLE `pin_transfer` (
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `jumlah` int(11) DEFAULT 1,
+  `tanggal` datetime DEFAULT current_timestamp(),
+  `keterangan` varchar(255) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `pin_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `placement_logs`
+--
+
+CREATE TABLE `placement_logs` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `position` varchar(20) NOT NULL,
+  `autoplacement` enum('YES','NO') NOT NULL,
+  `matrix_type` varchar(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `points`
+--
+
+CREATE TABLE `points` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `source_user_id` int(11) DEFAULT NULL,
+  `point` int(11) NOT NULL,
+  `type` enum('referral','level','reward') NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `nama_produk` varchar(100) NOT NULL,
+  `harga_pin` int(11) NOT NULL DEFAULT 0,
+  `harga` decimal(18,2) NOT NULL DEFAULT 0.00,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `currency` varchar(8) DEFAULT 'IDR',
+  `status` enum('aktif','nonaktif') DEFAULT 'aktif',
+  `upgrade_to` int(11) DEFAULT NULL,
+  `kode_produk` varchar(30) DEFAULT NULL,
+  `direct_commission` decimal(15,2) DEFAULT 0.00,
+  `aktif` tinyint(1) NOT NULL DEFAULT 1,
+  `system_type` varchar(32) NOT NULL DEFAULT 'unilevel'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `nama_produk`, `harga_pin`, `harga`, `is_active`, `created_at`, `currency`, `status`, `upgrade_to`, `kode_produk`, `direct_commission`, `aktif`, `system_type`) VALUES
+(1, 'Produk Paket Starter', 0, 100000.00, 1, '2025-07-01 16:26:14', 'IDR', 'aktif', 3, 'A', 20000.00, 1, 'unilevel'),
+(2, 'Free', 0, 0.00, 1, '2025-07-01 20:46:41', 'IDR', 'aktif', 1, 'Free', 0.00, 1, 'unilevel'),
+(3, 'Plan B', 0, 500000.00, 1, '2025-07-03 10:20:58', 'IDR', 'aktif', NULL, 'B', 100000.00, 1, 'unilevel');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_commissions`
+--
+
+CREATE TABLE `product_commissions` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `level` int(11) NOT NULL,
+  `commission_amount` decimal(18,2) NOT NULL DEFAULT 0.00,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_commissions`
+--
+
+INSERT INTO `product_commissions` (`id`, `product_id`, `level`, `commission_amount`, `is_active`) VALUES
+(1, 1, 1, 10000.00, 1),
+(2, 1, 2, 10000.00, 1),
+(3, 1, 3, 10000.00, 1),
+(4, 1, 4, 10000.00, 1),
+(5, 1, 5, 10000.00, 1),
+(6, 1, 6, 10000.00, 1),
+(7, 1, 7, 10000.00, 1),
+(8, 1, 8, 10000.00, 1),
+(9, 1, 9, 10000.00, 1),
+(10, 1, 10, 10000.00, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_rewards`
+--
+
+CREATE TABLE `product_rewards` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `reward_type` enum('referral','level','transaksi','upgrade','binary_pair','point_growth','hybrid') NOT NULL DEFAULT 'referral',
+  `level` int(11) DEFAULT NULL,
+  `point` int(11) DEFAULT 0,
+  `left_leg` int(11) DEFAULT NULL,
+  `right_leg` int(11) DEFAULT NULL,
+  `milestone_point` int(11) DEFAULT NULL,
+  `reward_amount` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `is_active` tinyint(1) DEFAULT 1,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_rewards`
+--
+
+INSERT INTO `product_rewards` (`id`, `user_id`, `product_id`, `reward_type`, `level`, `point`, `left_leg`, `right_leg`, `milestone_point`, `reward_amount`, `is_active`, `keterangan`, `created_at`) VALUES
+(2, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 60, 150000.00, 1, 'Reward 2', '2025-07-03 23:42:13'),
+(3, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 175, 350000.00, 1, 'Reward 3', '2025-07-03 23:42:13'),
+(4, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 300, 600000.00, 1, 'Reward 4', '2025-07-03 23:42:13'),
+(5, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 700, 1400000.00, 1, 'Reward 5', '2025-07-03 23:42:13'),
+(6, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 1300, 2600000.00, 1, 'Reward 6', '2025-07-03 23:42:13'),
+(7, NULL, 3, 'point_growth', NULL, NULL, NULL, NULL, 25, 300000.00, 1, '', '2025-07-04 01:33:28'),
+(8, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 20, 20000.00, 1, 'Reward 1', '2025-07-07 01:13:10'),
+(12, NULL, 1, 'point_growth', NULL, NULL, NULL, NULL, 3000, 5000000.00, 1, 'Reward 7', '2025-07-12 10:48:39'),
+(16, NULL, 1, 'referral', NULL, 10, NULL, NULL, NULL, 10000.00, 1, 'Tahap 1', '2025-07-12 14:47:30'),
+(17, NULL, 1, 'referral', NULL, 60, NULL, NULL, NULL, 60000.00, 1, 'Tahap 2', '2025-07-12 14:50:16'),
+(18, NULL, 1, 'level', 1, 3, NULL, NULL, NULL, 5000.00, 1, 'Reward Level 2 Penuh', '2025-07-12 16:20:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referral_qualification`
+--
+
+CREATE TABLE `referral_qualification` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `qualified` tinyint(1) DEFAULT 0,
+  `referral_count` int(11) DEFAULT 0,
+  `qualification_date` datetime DEFAULT NULL,
+  `whitelist_eligible` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reward_claims`
+--
+
+CREATE TABLE `reward_claims` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `reward_amount` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `from_stage` int(11) NOT NULL,
+  `to_stage` int(11) NOT NULL,
+  `claim_date` datetime DEFAULT NULL,
+  `status` enum('pending','claimed','expired') DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reward_settings`
+--
+
+CREATE TABLE `reward_settings` (
+  `id` int(11) NOT NULL,
+  `reward_type` enum('produk','aksi','global') NOT NULL,
+  `ref_id` int(11) DEFAULT NULL,
+  `nama` varchar(100) NOT NULL,
+  `point` int(11) NOT NULL DEFAULT 0,
+  `status` enum('aktif','nonaktif') DEFAULT 'aktif'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `name` varchar(100) NOT NULL,
+  `value` text NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`name`, `value`, `updated_at`) VALUES
+('autoplacement', 'YES', '2025-07-11 10:15:46'),
+('geneology_type', 'trinary', '2025-07-02 05:08:52'),
+('komisi_level', '10', '2025-07-03 07:37:22'),
+('max_leg', '3', '2025-07-02 05:08:52'),
+('min_withdraw', '20000', '2025-07-03 16:30:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings_level`
+--
+
+CREATE TABLE `settings_level` (
+  `id` int(11) NOT NULL,
+  `nama_level` varchar(100) NOT NULL,
+  `level` int(11) NOT NULL,
+  `jenis_komisi` enum('nominal','persen') NOT NULL DEFAULT 'nominal',
+  `nilai_komisi` decimal(12,2) NOT NULL,
+  `catatan` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stage_rewards`
+--
+
+CREATE TABLE `stage_rewards` (
+  `id` int(11) NOT NULL,
+  `stage_from` int(11) NOT NULL,
+  `stage_to` int(11) NOT NULL,
+  `reward_amount` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `reward_type` varchar(50) DEFAULT 'cash',
+  `description` text DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `system_config`
+--
+
+CREATE TABLE `system_config` (
+  `id` int(11) NOT NULL,
+  `autoplacement` enum('YES','NO') DEFAULT 'YES'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `system_config`
+--
+
+INSERT INTO `system_config` (`id`, `autoplacement`) VALUES
+(1, 'YES');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','superadmin','member') NOT NULL DEFAULT 'member',
+  `is_superadmin` tinyint(1) NOT NULL DEFAULT 0,
+  `nama_lengkap` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `no_hp` varchar(20) DEFAULT NULL,
+  `bank` varchar(50) DEFAULT NULL,
+  `nama_pemilik_bank` varchar(100) DEFAULT NULL,
+  `no_rekening` varchar(50) DEFAULT NULL,
+  `alamat_lengkap` text DEFAULT NULL,
+  `rt_rw` varchar(10) DEFAULT NULL,
+  `desa_kelurahan` varchar(50) DEFAULT NULL,
+  `kecamatan` varchar(50) DEFAULT NULL,
+  `kota_kabupaten` varchar(50) DEFAULT NULL,
+  `provinsi` varchar(50) DEFAULT NULL,
+  `referral_id` int(11) DEFAULT NULL,
+  `position` varchar(20) DEFAULT NULL,
+  `leg` varchar(20) DEFAULT NULL,
+  `join_date` datetime DEFAULT current_timestamp(),
+  `free_join_at` datetime DEFAULT NULL,
+  `pin_balance` int(11) DEFAULT 0,
+  `status` enum('active','pasif','suspended','banned') NOT NULL DEFAULT 'active',
+  `is_free_member` tinyint(1) NOT NULL DEFAULT 0,
+  `saldo` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `last_login` datetime DEFAULT NULL,
+  `last_login_ip` varchar(45) DEFAULT NULL,
+  `last_login_ua` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ref_by` varchar(50) DEFAULT NULL,
+  `user_referral_code` varchar(32) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `posisi_binary` enum('left','right') DEFAULT NULL,
+  `child_left` int(11) DEFAULT NULL,
+  `child_center` int(11) DEFAULT NULL,
+  `child_right` int(11) DEFAULT NULL,
+  `child_leg1` int(11) DEFAULT NULL,
+  `child_leg2` int(11) DEFAULT NULL,
+  `child_leg3` int(11) DEFAULT NULL,
+  `child_leg4` int(11) DEFAULT NULL,
+  `child_leg5` int(11) DEFAULT NULL,
+  `child_leg6` int(11) DEFAULT NULL,
+  `child_leg7` int(11) DEFAULT NULL,
+  `child_leg8` int(11) DEFAULT NULL,
+  `child_leg9` int(11) DEFAULT NULL,
+  `child_leg10` int(11) DEFAULT NULL,
+  `upgraded_at` datetime DEFAULT NULL,
+  `avatar_url` varchar(255) DEFAULT NULL,
+  `mfa_secret` varchar(64) DEFAULT NULL,
+  `mfa_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `poin` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `is_superadmin`, `nama_lengkap`, `email`, `no_hp`, `bank`, `nama_pemilik_bank`, `no_rekening`, `alamat_lengkap`, `rt_rw`, `desa_kelurahan`, `kecamatan`, `kota_kabupaten`, `provinsi`, `referral_id`, `position`, `leg`, `join_date`, `free_join_at`, `pin_balance`, `status`, `is_free_member`, `saldo`, `last_login`, `last_login_ip`, `last_login_ua`, `created_at`, `updated_at`, `ref_by`, `user_referral_code`, `product_id`, `parent_id`, `posisi_binary`, `child_left`, `child_center`, `child_right`, `child_leg1`, `child_leg2`, `child_leg3`, `child_leg4`, `child_leg5`, `child_leg6`, `child_leg7`, `child_leg8`, `child_leg9`, `child_leg10`, `upgraded_at`, `avatar_url`, `mfa_secret`, `mfa_enabled`, `poin`) VALUES
+(1, 'admin', '$2y$10$iL834lPAegXaIZR8hlO7IOd7v5y3lXFnF1yxLlYBy6nBmZhJwkixi', 'admin', 0, 'Admin', 'admin@example.com', '08123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-01 16:26:14', NULL, 0, 'active', 0, 10000.00, NULL, NULL, NULL, '2025-07-01 09:26:14', '2025-07-12 02:03:02', NULL, 'ADM001', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(2, 'member', '$2y$10$.VSoC2gbU3RmBOyBge2Xdexg0QZ2A4x2OWet12WyNBSecR5nl3uqW', 'member', 0, 'Member Satu', 'member1@example.com', '08123456780', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-01 16:26:14', NULL, 0, 'active', 0, 110000.00, NULL, NULL, NULL, '2025-07-01 09:26:14', '2025-07-12 02:30:36', NULL, 'MEM001', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 5),
+(9, 'superadmin_xyz', '$2y$10$1n8sW5z6dpBzD0ALgYgeW.D6Xao8ncTr48j8Y3ux5mTJ66tPX7.o.', 'superadmin', 1, 'Super Admin', 'superadmin@example.com', '08123456788', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-01 16:26:14', NULL, 0, 'active', 0, 0.00, NULL, NULL, NULL, '2025-07-01 09:26:14', '2025-07-07 17:20:21', NULL, 'SUPADM001', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(30, 'jutawan', '$2y$10$lgvEm36Z7iGVU9v5M7VOSOHlvRfx5TtWxFTeU5VP5KXhi0CYXyCqC', 'member', 0, 'jutawan', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', 'Wilahardi', '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '1122', 'Sukabumi', 'Sukabumi', 'Kota Sukabumi', 'Jawa Barat', 2, 'left', 'left', '2025-07-09 13:48:18', NULL, 0, 'active', 0, 20000.00, NULL, NULL, NULL, '2025-07-09 06:48:18', '2025-07-11 10:53:18', 'MEM001', 'jutawan552', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2),
+(31, 'milyader', '$2y$10$ew9X9zMG30QH9gsQcbS/MegkaMFIyHjM0htXCRrvzTQTWPFAsXa/K', 'member', 0, 'harum', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BRI', 'Wilahardi', '1222328328372832', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '1212', 'Sukabumi', 'Sukabumi', 'Kota Sukabumi', 'Jawa Barat', 2, 'center', 'center', '2025-07-09 13:49:43', NULL, 0, 'active', 0, 40000.00, NULL, NULL, NULL, '2025-07-09 06:49:43', '2025-07-11 10:53:18', 'MEM001', 'milyader596', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(32, 'pendafataran', '$2y$10$8GV6Mj95dvTQI3gswf98VeV6.ClFGKnB4C9YafgGZc4XSyrvMdhU.', 'member', 0, 'Berkah', 'wilahardiyuliansyah@gmail.com', '08123456780', 'BRI', 'Wilahardi Yuliansyah', '3989898989', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '1212', 'Sukabumi', 'Sukabumi', 'Kota Sukabumi', 'Jawa Barat', 2, 'right', 'right', '2025-07-09 13:52:48', NULL, 0, 'active', 0, 20000.00, NULL, NULL, NULL, '2025-07-09 06:52:48', '2025-07-10 12:46:17', 'MEM001', 'pendafataran169', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(34, 'globalsatu', '$2y$10$Cto8ECiwfPPEGZXadQ1vm.iA1b8vFyg6nAVOxwjcwko93SI/HCZ5S', 'member', 0, 'berkahmulia', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BRI', 'Wilahardi', '123456789', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '1212', 'Sukabumi', 'Sukabumi', 'Kota Sukabumi', 'Jawa Barat', 31, 'left', 'left', '2025-07-10 21:59:45', NULL, 0, 'active', 0, 0.00, NULL, NULL, NULL, '2025-07-10 14:59:45', '2025-07-10 14:59:45', 'milyader596', 'globalsatu620', 1, 30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(35, 'siskae', '$2y$10$JOAlfdL8.K89mIudDFXFwebYODNNqNvYJt2pc3NJGFPHBKOgeFs3q', 'member', 0, 'Siska', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BRI', 'Wilahardi Yuliansyah', '12345678', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '1212', 'Banten', 'Banten', 'Kota Sukabumi', 'Jawa Barat', 31, 'center', 'center', '2025-07-11 17:53:18', NULL, 0, 'active', 0, 0.00, NULL, NULL, NULL, '2025-07-11 10:53:18', '2025-07-11 10:53:18', 'milyader596', 'siskae116', 1, 30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_backup`
+--
+
+CREATE TABLE `users_backup` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('admin','superadmin','member') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'member',
+  `is_superadmin` tinyint(1) NOT NULL DEFAULT 0,
+  `nama_lengkap` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_pemilik_bank` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_rekening` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat_lengkap` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rt_rw` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `desa_kelurahan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kecamatan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kota_kabupaten` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `referral_id` int(11) DEFAULT NULL,
+  `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `leg` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `join_date` datetime DEFAULT current_timestamp(),
+  `free_join_at` datetime DEFAULT NULL,
+  `pin_balance` int(11) DEFAULT 0,
+  `status` enum('active','pasif','suspended','banned') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `is_free_member` tinyint(1) NOT NULL DEFAULT 0,
+  `saldo` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `last_login` datetime DEFAULT NULL,
+  `last_login_ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_login_ua` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ref_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_referral_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `child_left` int(11) DEFAULT NULL,
+  `child_center` int(11) DEFAULT NULL,
+  `child_right` int(11) DEFAULT NULL,
+  `child_leg1` int(11) DEFAULT NULL,
+  `child_leg2` int(11) DEFAULT NULL,
+  `child_leg3` int(11) DEFAULT NULL,
+  `child_leg4` int(11) DEFAULT NULL,
+  `child_leg5` int(11) DEFAULT NULL,
+  `child_leg6` int(11) DEFAULT NULL,
+  `child_leg7` int(11) DEFAULT NULL,
+  `child_leg8` int(11) DEFAULT NULL,
+  `child_leg9` int(11) DEFAULT NULL,
+  `child_leg10` int(11) DEFAULT NULL,
+  `upgraded_at` datetime DEFAULT NULL,
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mfa_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mfa_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `poin` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `users_backup`
+--
+
+INSERT INTO `users_backup` (`id`, `username`, `password`, `role`, `is_superadmin`, `nama_lengkap`, `email`, `no_hp`, `bank`, `nama_pemilik_bank`, `no_rekening`, `alamat_lengkap`, `rt_rw`, `desa_kelurahan`, `kecamatan`, `kota_kabupaten`, `provinsi`, `referral_id`, `position`, `leg`, `join_date`, `free_join_at`, `pin_balance`, `status`, `is_free_member`, `saldo`, `last_login`, `last_login_ip`, `last_login_ua`, `created_at`, `updated_at`, `ref_by`, `user_referral_code`, `product_id`, `parent_id`, `child_left`, `child_center`, `child_right`, `child_leg1`, `child_leg2`, `child_leg3`, `child_leg4`, `child_leg5`, `child_leg6`, `child_leg7`, `child_leg8`, `child_leg9`, `child_leg10`, `upgraded_at`, `avatar_url`, `mfa_secret`, `mfa_enabled`, `poin`) VALUES
+(11, 'indriyani', '$2y$10$tsLiOaRzDN2f5iIOggXCduIVHNvLg3KoQwvYZ7VtyNAiQ/L1BhZmu', 'member', 0, 'indriyani', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', NULL, '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '05', 'Cikundul', 'Lembursitu', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-02 00:13:00', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-01 17:13:00', '2025-07-09 05:43:20', 'MEM001', 'indriyani344', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(12, 'Virendra', '$2y$10$odbXYHSR0/iwwHtEuyhEYuw2OfVk4RRoTAI7i6tdqJdcs9h/32uL2', 'member', 0, 'Virendra', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', NULL, '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '0105', 'Cikundul', 'Lembursitu', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-02 11:22:59', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-02 04:22:59', '2025-07-09 05:43:20', 'MEM001', 'virendra458', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(13, 'berkah', '$2y$10$EqrupuH2Q9kpp78jr10COONTXGSP4kQL/u6sSHFek/hVZ2WK4qWgG', 'member', 0, 'farhan', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', NULL, '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '0501', 'Cikundul', 'Lembursitu', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-03 00:08:17', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-02 17:08:17', '2025-07-09 05:43:20', 'MEM001', 'berkah505', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(19, 'berkahsuci', '$2y$10$aq7m/ne2Z.6DEB8OgVb4oOnSHaoMeUTggQTHgYHGPfq.5tbedxjwG', 'member', 0, 'berkahsuci', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA Wilahardi', NULL, '0380108867', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '0105', 'Cikundul', 'Lembursitu', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 18:33:34', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 11:33:34', '2025-07-09 05:43:20', 'MEM001', 'berkahsuci285', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(20, 'farhan', '$2y$10$xyT4itdGMa/by61Zxq13Oeg1ANPDrphHDsZeB5nX4BW12RPg1Etdm', 'member', 0, 'farhan', 'wilahardiyuliansyah@gmail.com', '085182564913', 'bca wilahardi', NULL, '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '0105', 'sukamekar', 'jampangtengah', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 20:52:20', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 13:52:20', '2025-07-09 05:43:20', 'MEM001', 'farhan432', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(21, 'wibowo', '$2y$10$.Uz.Oko/IH43ILdHtmQjqed5MDLGMDlKeYgPQxuxsyc9tai2ovUuq', 'member', 0, 'wibowo', 'wilahardiyuliansyah@gmail.com', '085182564913', 'bri 8977887277827728', NULL, '99928983232', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '081080', 'sukarame', 'bandung', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 20:57:09', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 13:57:09', '2025-07-09 05:43:20', 'berkah505', 'wibowo811', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(22, 'wahyudin', '$2y$10$9ZO4AdvF/0IdMB8hHOADPurCfhORz1Fn3kb9AAa.8w0.LlbVmDWti', 'member', 0, 'wahyudin', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', 'Wahyudin', '03888777777', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '018998', 'Bogor', 'Bogor', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 22:39:29', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 15:39:29', '2025-07-09 05:43:20', 'MEM001', 'wahyudin790', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(23, 'register', '$2y$10$damJWyNO6rnz9UyaVF51PudoWPg8oQNt8dSgQAiTGxGoDBohkIrBC', 'member', 0, 'jutawan', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', 'Wilahardi', '121212918292', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '212121', 'jakarta', 'Jakarta', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 22:42:05', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 15:42:05', '2025-07-09 05:43:20', 'MEM001', 'register842', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(24, 'milyader', '$2y$10$mh4l/MVe948bQmmtRMk8yePHmonZJflZwGyw5BSsGYn83PUFevNvW', 'member', 0, 'gerhana', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', 'Wilahardi', '0380898989', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '1918911', 'Bandung', 'Bandung', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 22:43:40', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 15:43:40', '2025-07-09 05:43:20', 'MEM001', 'milyader821', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(25, 'suksesberkah', '$2y$10$11CSBNhZukX/d0UfI5qCU.vKVCMpnmfk4mwY2fv/amTvPn4aE1mMC', 'member', 0, 'Refina', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BRI', 'Refina', '121212121212121212132', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '02019201', 'Bandung', 'Bandung', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 22:46:33', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 15:46:33', '2025-07-09 05:43:20', 'MEM001', 'suksesberkah907', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(26, 'berlimpah', '$2y$10$YY5yp0Tyl/ivlkWfzP0EOem0YxpC0NNCdhEdfSeOB8YXfJc9yDpLy', 'member', 0, 'Permana', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BRI', 'Wilahardi', '288882882882', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '19181', 'Banten', 'Banten', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 22:50:27', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 15:50:27', '2025-07-09 05:43:20', 'MEM001', 'berlimpah164', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(27, 'pintuumroh', '$2y$10$2gFaT/CQ67p1dOpslvVsyuzPNf4vlvA00Pj8BJuAzRI4McSf4lCUK', 'member', 0, 'Hardi', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', 'Wilahardi Yuliansyah', '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '12121', 'Banten', 'Banten', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 23:05:43', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 16:05:43', '2025-07-09 05:43:20', 'MEM001', 'pintuumroh150', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(28, 'cucunurjanah', '$2y$10$Q8ufJbQ/3S6/QUw4d5Fd6eGoTQdXKtl4U/EAsSl7Tpld2bEmNwzvG', 'member', 0, 'Cucu Nurjanah', 'wilahardiyuliansyah@gmail.com', '085182564913', 'BCA', 'Wilahardi', '0380108879', 'Perum Bumi Raharja Blok D5 No. 20 RT. 05/01 Kel. Cikundul Kec. Lembursitu Kota Sukabumi Jawa Barat', '12121', 'Sukabumi', 'Sukabumi', 'Kota Sukabumi', 'Jawa Barat', NULL, NULL, NULL, '2025-07-08 23:32:53', NULL, 0, 'suspended', 0, 0.00, NULL, NULL, NULL, '2025-07-08 16:32:53', '2025-07-09 05:43:20', 'milyader821', 'cucunurjanah565', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_children`
+--
+
+CREATE TABLE `user_children` (
+  `parent_id` int(11) NOT NULL,
+  `child_id` int(11) NOT NULL,
+  `position` varchar(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_rewards`
+--
+
+CREATE TABLE `user_rewards` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `reward_id` int(11) NOT NULL,
+  `reward_type` enum('produk','aksi','global') NOT NULL DEFAULT 'produk',
+  `point` int(11) NOT NULL DEFAULT 0,
+  `reward_amount` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `status` enum('pending','approved','withdrawn','expired') DEFAULT 'pending',
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `approved_at` datetime DEFAULT NULL,
+  `withdrawn_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `whitelist_global`
+--
+
+CREATE TABLE `whitelist_global` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `entry_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `position` int(11) NOT NULL COMMENT 'Posisi dalam whitelist (1-9)',
+  `status` enum('active','promoted','expired') DEFAULT 'active'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `withdrawal`
+--
+
+CREATE TABLE `withdrawal` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `amount` decimal(18,2) NOT NULL,
+  `type` enum('komisi','reward','bonus') DEFAULT 'komisi',
+  `reward_id` int(11) DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `note` text DEFAULT NULL,
+  `bukti_transfer` varchar(255) DEFAULT NULL,
+  `admin_id` int(11) DEFAULT NULL,
+  `approved_at` datetime DEFAULT NULL,
+  `invoice_no` varchar(40) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_action` (`action`),
+  ADD KEY `idx_related` (`related_id`,`related_type`),
+  ADD KEY `idx_created_at` (`created_at`);
+
+--
+-- Indexes for table `admin_logs`
+--
+ALTER TABLE `admin_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `berita`
+--
+ALTER TABLE `berita`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `berita_read`
+--
+ALTER TABLE `berita_read`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `berita_id` (`berita_id`,`user_id`);
+
+--
+-- Indexes for table `bonus`
+--
+ALTER TABLE `bonus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bonus_custom`
+--
+ALTER TABLE `bonus_custom`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `commissions`
+--
+ALTER TABLE `commissions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `from_user_id` (`from_user_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `commission_log`
+--
+ALTER TABLE `commission_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `admin_id` (`admin_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `commission_settings`
+--
+ALTER TABLE `commission_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `genealogy`
+--
+ALTER TABLE `genealogy`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `parent_id` (`parent_id`);
+
+--
+-- Indexes for table `giveaway_activity_log`
+--
+ALTER TABLE `giveaway_activity_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `activity_type` (`activity_type`);
+
+--
+-- Indexes for table `growth_point_rewards`
+--
+ALTER TABLE `growth_point_rewards`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `member_tree`
+--
+ALTER TABLE `member_tree`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `multi_stage`
+--
+ALTER TABLE `multi_stage`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `stage` (`stage`,`position`);
+
+--
+-- Indexes for table `network_settings`
+--
+ALTER TABLE `network_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pin`
+--
+ALTER TABLE `pin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `kode_pin` (`kode_pin`),
+  ADD UNIQUE KEY `uniq_kode_pin` (`kode_pin`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `generated_by` (`generated_by`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_batch_id` (`batch_id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_order_id` (`order_id`),
+  ADD KEY `idx_created_at` (`created_at`);
+
+--
+-- Indexes for table `pin_activations`
+--
+ALTER TABLE `pin_activations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pin_id` (`pin_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `pin_assignments`
+--
+ALTER TABLE `pin_assignments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pin_id` (`pin_id`),
+  ADD KEY `assigned_to` (`assigned_to`),
+  ADD KEY `assigned_by` (`assigned_by`),
+  ADD KEY `order_id` (`order_id`);
+
+--
+-- Indexes for table `pin_batches`
+--
+ALTER TABLE `pin_batches`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `pin_log`
+--
+ALTER TABLE `pin_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pin_orders`
+--
+ALTER TABLE `pin_orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pin_orders_user` (`user_id`),
+  ADD KEY `fk_pin_orders_product` (`product_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_created_at` (`created_at`),
+  ADD KEY `fk_pin_orders_processed_by` (`processed_by`);
+
+--
+-- Indexes for table `pin_order_details`
+--
+ALTER TABLE `pin_order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `pin_id` (`pin_id`);
+
+--
+-- Indexes for table `pin_transactions`
+--
+ALTER TABLE `pin_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `type` (`type`),
+  ADD KEY `status` (`status`),
+  ADD KEY `idx_from_user_id` (`from_user_id`),
+  ADD KEY `idx_to_user_id` (`to_user_id`),
+  ADD KEY `fk_pintrans_pin` (`pin_id`),
+  ADD KEY `fk_pintrans_product` (`product_id`),
+  ADD KEY `fk_pintrans_order` (`order_id`);
+
+--
+-- Indexes for table `pin_transfer`
+--
+ALTER TABLE `pin_transfer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `receiver_id` (`receiver_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `placement_logs`
+--
+ALTER TABLE `placement_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `parent_id` (`parent_id`),
+  ADD KEY `created_at` (`created_at`);
+
+--
+-- Indexes for table `points`
+--
+ALTER TABLE `points`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `source_user_id` (`source_user_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `upgrade_to` (`upgrade_to`);
+
+--
+-- Indexes for table `product_commissions`
+--
+ALTER TABLE `product_commissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_product_level` (`product_id`,`level`);
+
+--
+-- Indexes for table `product_rewards`
+--
+ALTER TABLE `product_rewards`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `referral_qualification`
+--
+ALTER TABLE `referral_qualification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `qualified` (`qualified`);
+
+--
+-- Indexes for table `reward_claims`
+--
+ALTER TABLE `reward_claims`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `status` (`status`);
+
+--
+-- Indexes for table `reward_settings`
+--
+ALTER TABLE `reward_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `settings_level`
+--
+ALTER TABLE `settings_level`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stage_rewards`
+--
+ALTER TABLE `stage_rewards`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `system_config`
+--
+ALTER TABLE `system_config`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `user_referral_code` (`user_referral_code`),
+  ADD UNIQUE KEY `idx_parent_leg` (`parent_id`,`leg`),
+  ADD KEY `idx_referral_id` (`referral_id`),
+  ADD KEY `idx_parent_id` (`parent_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_product_id` (`product_id`),
+  ADD KEY `fk_users_child_left` (`child_left`),
+  ADD KEY `fk_users_child_center` (`child_center`),
+  ADD KEY `fk_users_child_right` (`child_right`),
+  ADD KEY `idx_users_position` (`position`),
+  ADD KEY `idx_users_leg` (`leg`),
+  ADD KEY `idx_parent_position` (`parent_id`,`position`),
+  ADD KEY `idx_username` (`username`);
+
+--
+-- Indexes for table `user_children`
+--
+ALTER TABLE `user_children`
+  ADD PRIMARY KEY (`parent_id`,`child_id`),
+  ADD KEY `parent_id` (`parent_id`),
+  ADD KEY `child_id` (`child_id`),
+  ADD KEY `position` (`position`);
+
+--
+-- Indexes for table `user_rewards`
+--
+ALTER TABLE `user_rewards`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `reward_id` (`reward_id`);
+
+--
+-- Indexes for table `whitelist_global`
+--
+ALTER TABLE `whitelist_global`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `status` (`status`),
+  ADD KEY `position` (`position`);
+
+--
+-- Indexes for table `withdrawal`
+--
+ALTER TABLE `withdrawal`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_logs`
+--
+ALTER TABLE `admin_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `berita`
+--
+ALTER TABLE `berita`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `berita_read`
+--
+ALTER TABLE `berita_read`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bonus`
+--
+ALTER TABLE `bonus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `bonus_custom`
+--
+ALTER TABLE `bonus_custom`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `commissions`
+--
+ALTER TABLE `commissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `commission_log`
+--
+ALTER TABLE `commission_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `genealogy`
+--
+ALTER TABLE `genealogy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `giveaway_activity_log`
+--
+ALTER TABLE `giveaway_activity_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `growth_point_rewards`
+--
+ALTER TABLE `growth_point_rewards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `member_tree`
+--
+ALTER TABLE `member_tree`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `multi_stage`
+--
+ALTER TABLE `multi_stage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `network_settings`
+--
+ALTER TABLE `network_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `pin`
+--
+ALTER TABLE `pin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT for table `pin_activations`
+--
+ALTER TABLE `pin_activations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pin_assignments`
+--
+ALTER TABLE `pin_assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pin_batches`
+--
+ALTER TABLE `pin_batches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `pin_log`
+--
+ALTER TABLE `pin_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `pin_orders`
+--
+ALTER TABLE `pin_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `pin_order_details`
+--
+ALTER TABLE `pin_order_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pin_transactions`
+--
+ALTER TABLE `pin_transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pin_transfer`
+--
+ALTER TABLE `pin_transfer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `placement_logs`
+--
+ALTER TABLE `placement_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `points`
+--
+ALTER TABLE `points`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `product_commissions`
+--
+ALTER TABLE `product_commissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `product_rewards`
+--
+ALTER TABLE `product_rewards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `referral_qualification`
+--
+ALTER TABLE `referral_qualification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `reward_claims`
+--
+ALTER TABLE `reward_claims`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `reward_settings`
+--
+ALTER TABLE `reward_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `settings_level`
+--
+ALTER TABLE `settings_level`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `stage_rewards`
+--
+ALTER TABLE `stage_rewards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `user_rewards`
+--
+ALTER TABLE `user_rewards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `whitelist_global`
+--
+ALTER TABLE `whitelist_global`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `withdrawal`
+--
+ALTER TABLE `withdrawal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `network_position_stats`
+--
+DROP TABLE IF EXISTS `network_position_stats`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `network_position_stats`  AS SELECT `users`.`parent_id` AS `parent_id`, `users`.`position` AS `position`, count(0) AS `position_count` FROM `users` WHERE `users`.`parent_id` is not null GROUP BY `users`.`parent_id`, `users`.`position` ORDER BY `users`.`parent_id` ASC, `users`.`position` ASC ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `network_structure_view`
+--
+DROP TABLE IF EXISTS `network_structure_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `network_structure_view`  AS SELECT `u`.`id` AS `id`, `u`.`username` AS `username`, `u`.`parent_id` AS `parent_id`, `u`.`referral_id` AS `referral_id`, `p`.`username` AS `parent_username`, `r`.`username` AS `referrer_username`, `u`.`leg` AS `leg`, `u`.`position` AS `position`, `u`.`status` AS `status`, `u`.`product_id` AS `product_id`, `pr`.`nama_produk` AS `product_name`, `u`.`join_date` AS `join_date`, `u`.`poin` AS `poin`, (select count(0) from `users` where `users`.`parent_id` = `u`.`id`) AS `direct_children_count` FROM (((`users` `u` left join `users` `p` on(`u`.`parent_id` = `p`.`id`)) left join `users` `r` on(`u`.`referral_id` = `r`.`id`)) left join `products` `pr` on(`u`.`product_id` = `pr`.`id`)) ORDER BY `u`.`id` ASC ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `commissions`
+--
+ALTER TABLE `commissions`
+  ADD CONSTRAINT `commissions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `commissions_ibfk_2` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `commissions_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `commission_log`
+--
+ALTER TABLE `commission_log`
+  ADD CONSTRAINT `commission_log_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `commission_log_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `pin`
+--
+ALTER TABLE `pin`
+  ADD CONSTRAINT `pin_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `pin_ibfk_2` FOREIGN KEY (`generated_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `pin_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `pin_ibfk_4` FOREIGN KEY (`order_id`) REFERENCES `pin_orders` (`id`);
+
+--
+-- Constraints for table `pin_activations`
+--
+ALTER TABLE `pin_activations`
+  ADD CONSTRAINT `pin_activations_ibfk_1` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`id`),
+  ADD CONSTRAINT `pin_activations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `pin_assignments`
+--
+ALTER TABLE `pin_assignments`
+  ADD CONSTRAINT `pin_assignments_ibfk_1` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`id`),
+  ADD CONSTRAINT `pin_assignments_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `pin_assignments_ibfk_3` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `pin_assignments_ibfk_4` FOREIGN KEY (`order_id`) REFERENCES `pin_orders` (`id`);
+
+--
+-- Constraints for table `pin_batches`
+--
+ALTER TABLE `pin_batches`
+  ADD CONSTRAINT `pin_batches_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `pin_batches_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `pin_orders`
+--
+ALTER TABLE `pin_orders`
+  ADD CONSTRAINT `fk_pin_orders_processed_by` FOREIGN KEY (`processed_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_pin_orders_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `fk_pin_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `pin_orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pin_orders_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `pin_order_details`
+--
+ALTER TABLE `pin_order_details`
+  ADD CONSTRAINT `pin_order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `pin_orders` (`id`),
+  ADD CONSTRAINT `pin_order_details_ibfk_2` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`id`);
+
+--
+-- Constraints for table `pin_transactions`
+--
+ALTER TABLE `pin_transactions`
+  ADD CONSTRAINT `fk_pintrans_from_user` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_pintrans_order` FOREIGN KEY (`order_id`) REFERENCES `pin_orders` (`id`),
+  ADD CONSTRAINT `fk_pintrans_pin` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`id`),
+  ADD CONSTRAINT `fk_pintrans_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `fk_pintrans_to_user` FOREIGN KEY (`to_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_pintrans_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `pin_transactions_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `pin_orders` (`id`),
+  ADD CONSTRAINT `pin_transactions_ibfk_2` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`id`),
+  ADD CONSTRAINT `pin_transactions_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `placement_logs`
+--
+ALTER TABLE `placement_logs`
+  ADD CONSTRAINT `placement_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `placement_logs_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `points`
+--
+ALTER TABLE `points`
+  ADD CONSTRAINT `points_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `points_ibfk_2` FOREIGN KEY (`source_user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`upgrade_to`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `product_commissions`
+--
+ALTER TABLE `product_commissions`
+  ADD CONSTRAINT `product_commissions_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_child_center` FOREIGN KEY (`child_center`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_users_child_left` FOREIGN KEY (`child_left`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_users_child_right` FOREIGN KEY (`child_right`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_users_parent` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_users_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `fk_users_referral` FOREIGN KEY (`referral_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `user_children`
+--
+ALTER TABLE `user_children`
+  ADD CONSTRAINT `user_children_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `user_children_ibfk_2` FOREIGN KEY (`child_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `user_rewards`
+--
+ALTER TABLE `user_rewards`
+  ADD CONSTRAINT `user_rewards_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `user_rewards_ibfk_2` FOREIGN KEY (`reward_id`) REFERENCES `reward_settings` (`id`);
+
+--
+-- Constraints for table `withdrawal`
+--
+ALTER TABLE `withdrawal`
+  ADD CONSTRAINT `withdrawal_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
